@@ -1,10 +1,10 @@
-package edu.depaul.cdm.se452.rfa.profilemanagement.service;
+package edu.depaul.cdm.se452.rfa.profileManagement.service;
 import java.util.HashMap;
 import java.util.Map;
 
-import static edu.depaul.cdm.se452.rfa.profilemanagement.service.CharacteristicType.scalar;
-import static edu.depaul.cdm.se452.rfa.profilemanagement.service.CharacteristicType.binary;
-import static edu.depaul.cdm.se452.rfa.profilemanagement.service.CharacteristicType.categorical;
+import static edu.depaul.cdm.se452.rfa.profileManagement.service.CharacteristicType.scalar;
+import static edu.depaul.cdm.se452.rfa.profileManagement.service.CharacteristicType.binary;
+import static edu.depaul.cdm.se452.rfa.profileManagement.service.CharacteristicType.categorical;
 
 
 public class Characteristics {

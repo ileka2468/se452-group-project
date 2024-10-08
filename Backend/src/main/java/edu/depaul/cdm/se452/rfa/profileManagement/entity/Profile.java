@@ -1,5 +1,4 @@
-package edu.depaul.cdm.se452.rfa.profilemanagement.entity;
-
+package edu.depaul.cdm.se452.rfa.profileManagement.entity;
 import edu.depaul.cdm.se452.rfa.authentication.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -11,9 +10,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.type.SqlTypes;
-
 import java.util.Map;
-
 @Getter
 @Setter
 @Entity

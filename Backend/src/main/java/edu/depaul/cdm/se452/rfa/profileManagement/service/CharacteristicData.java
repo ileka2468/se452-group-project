@@ -1,9 +1,9 @@
-package edu.depaul.cdm.se452.rfa.profilemanagement.service;
+package edu.depaul.cdm.se452.rfa.profileManagement.service;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import static edu.depaul.cdm.se452.rfa.profilemanagement.service.CharacteristicType.*;
+import static edu.depaul.cdm.se452.rfa.profileManagement.service.CharacteristicType.*;
 
 @Getter
 @Setter

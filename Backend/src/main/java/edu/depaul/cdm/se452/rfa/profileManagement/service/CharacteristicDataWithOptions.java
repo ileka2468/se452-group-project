@@ -1,4 +1,4 @@
-package edu.depaul.cdm.se452.rfa.profilemanagement.service;
+package edu.depaul.cdm.se452.rfa.profileManagement.service;
 
 import lombok.Getter;
 import lombok.Setter;

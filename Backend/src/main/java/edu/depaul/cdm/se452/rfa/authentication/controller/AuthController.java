@@ -14,12 +14,11 @@ import edu.depaul.cdm.se452.rfa.authentication.repository.UserRepository;
 import edu.depaul.cdm.se452.rfa.authentication.repository.UserRoleRepository;
 import edu.depaul.cdm.se452.rfa.authentication.security.JwtTokenProvider;
 import edu.depaul.cdm.se452.rfa.authentication.service.CustomUserDetailsService;
-import edu.depaul.cdm.se452.rfa.authentication.service.TokenValidationService;
 import edu.depaul.cdm.se452.rfa.authentication.util.UserPrincipal;
 import edu.depaul.cdm.se452.rfa.invalidatedtokens.service.InvalidateTokenService;
-import edu.depaul.cdm.se452.rfa.profilemanagement.entity.Profile;
-import edu.depaul.cdm.se452.rfa.profilemanagement.service.InvalidCharacteristicException;
-import edu.depaul.cdm.se452.rfa.profilemanagement.service.ProfileManagementService;
+import edu.depaul.cdm.se452.rfa.profileManagement.entity.Profile;
+import edu.depaul.cdm.se452.rfa.profileManagement.service.InvalidCharacteristicException;
+import edu.depaul.cdm.se452.rfa.profileManagement.service.ProfileService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,7 +32,6 @@ import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -41,7 +39,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Log4j2
 @CrossOrigin
@@ -73,7 +70,7 @@ public class AuthController {
     InvalidateTokenService invalidateTokenService;
 
     @Autowired
-    ProfileManagementService profileManagementService;
+    ProfileService profileService;
 
     @Value("${app.refreshtokenExpirationInMs}")
     private int refreshtokenExpirationInMs;
@@ -123,7 +120,7 @@ public class AuthController {
         userRoleRepository.save(userRoleLink);
 
         try {
-            Profile profile = profileManagementService.createProfile(user);
+            Profile profile = profileService.createProfile(user);
             UserDetails userDetails = customUserDetailsService.loadUserByUsername(user.getUsername());
             System.out.println(userDetails.getAuthorities());
 
@@ -161,7 +158,7 @@ public class AuthController {
             response.setHeader(HttpHeaders.AUTHORIZATION, "Bearer " + authResponse.getAccessToken());
             response.addCookie(authResponse.getRefreshCookie());
             User user = customUserDetailsService.getUserByUsername(loginRequest.getUsername());
-            Profile profile = profileManagementService.loadProfileByUsername(loginRequest.getUsername());
+            Profile profile = profileService.loadProfileByUsername(loginRequest.getUsername());
             return ResponseEntity.ok(new AuthDataResponse(user.getUsername(), user.getFirstName(), user.getLastName(), profile.getPfpImage()));
 
         } catch (AuthenticationException e) {
@@ -232,7 +229,7 @@ public class AuthController {
         String accessToken = tokenProvider.getJwtFromRequest(request);
         String username = tokenProvider.getUsernameFromJWT(accessToken);
         User user = customUserDetailsService.getUserByUsername(username);
-        Profile profile = profileManagementService.loadProfileByUsername(username);
+        Profile profile = profileService.loadProfileByUsername(username);
 
         if (user == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Unable to retrieve user.");
